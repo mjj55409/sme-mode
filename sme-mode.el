@@ -35,6 +35,12 @@
 ;;
 ;;; Code:
 
+;;; Requirements
+(declare-function pkg-info-version-info "pkg-info" (library))
+
+(eval-when-compile
+  (require 'rx))
+
 ;;; Customization
 (defgroup sme nil
   "SAP CPQ modeling in Emacs"
@@ -71,6 +77,29 @@ just return nil."
       (message "SME Mode version: %s" version))
     version))
 
+;;; Utilities
+
+(defun sme-syntax-context (&optional pos)
+  "Determine the syntax context at POS, defaulting to point.
+Return nil, if there is no special context at POS, or one of
+`comment'
+     POS is inside a comment
+`single-quoted'
+     POS is inside a single-quoted string
+`double-quoted'
+     POS is inside a double-quoted string"
+  (let ((state (save-excursion (syntax-ppss pos))))
+    (if (nth 4 state)
+        'comment
+      (pcase (nth 3 state)
+        (`?\' 'single-quoted)
+        (`?\" 'double-quoted)))))
+
+(defun sme-in-string-or-comment-p (&optional pos)
+  "Determine whether POS is inside a string or comment."
+  (not (null (sme-syntax-context pos))))
+
+
 ;;; Font locking
 (defvar sme-mode-syntax-table
   (let ((table (make-syntax-table)))
@@ -80,8 +109,9 @@ just return nil."
     (modify-syntax-entry ?\' "\"'"  table)
     (modify-syntax-entry ?\" "\"\"" table)
     ;; C-style comments
-    (modify-syntax-entry ?/ ". 14b" table)
-    (modify-syntax-entry ?* ". 23b" table)
+    (modify-syntax-entry ?/ ". 124b" st)
+    (modify-syntax-entry ?* ". 23" st)
+    (modify-syntax-entry ?\n "> b" st)
     ;; Fix various operators and punctionation.
     (modify-syntax-entry ?<  "." table)
     (modify-syntax-entry ?>  "." table)
@@ -102,11 +132,35 @@ just return nil."
     table)
   "Syntax table in use in `sme-mode' buffers.")
 
+(defvar sme-mode-font-lock-keywords
+  `(,(rx symbol-start
+         (or "additionalvlaues" "and" "body" "bom" "boms" "characteristic"
+             "characteristics" "class" "classes" "classtype" "condition"
+             "constraint" "constraintnet" "constraintnets" "constraints"
+             "decimalplaces" "defaultvalues" "do" "domain" "explainations"
+             "extends" "externaltable" "field" "file" "find_or_create"
+             "function" "has_part" "in" "increment" "inferences"
+             "invisible" "is" "is_a" "is_object" "lang" "material" "max"
+             "min" "multivalue" "name" "noinput" "not" "nr" "numericlength"
+             "objects" "or" "part_of" "pfunction" "pos_no" "pos_type"
+             "primary" "producttype" "profiles" "reference" "required"
+             "restrictable" "restrictions" "rows" "rule" "rulenet" "rulenets"
+             "rules" "salesrelevant" "specified" "subpart_of" "table" "task"
+             "tasks" "textlength" "then" "type_of" "undo" "validfrom" "values"
+             "version" "visible" "where" "with"
+             "abs" "arcos" "arcsin" "arctan" "ceil" "cos" "exp" "floor" "frac"
+             "lc" "ln" "log10" "sign" "sin" "sqrt" "tan" "trunc" "uc" "||")
+         symbol-end)
+    (0 font-lock-preprocessor-face)))
+
+;;; Major mode definition
+
 ;;;###autoload
 (add-to-list 'auto-mode-alist '("\\.ssc\\'" . sme-mode))
 
 (define-derived-mode sme-mode prog-mode "SME Mode"
   :syntax-table sme-mode-syntax-table
+  :font-lock_keywords sme-mode-font-lock-keywords
   (font-lock-fontify-buffer))
 
 (provide 'sme-mode)
