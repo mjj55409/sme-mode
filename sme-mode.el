@@ -101,36 +101,36 @@ Return nil, if there is no special context at POS, or one of
 
 
 ;;; Font locking
-(defvar sme-mode-syntax-table
-  (let ((table (make-syntax-table)))
-    ;; Strings
-    (modify-syntax-entry ?' "\"" table)
-    (modify-syntax-entry ?\" "\"" table)
-    (modify-syntax-entry ?\' "\"'"  table)
-    (modify-syntax-entry ?\" "\"\"" table)
-    ;; C-style comments
-    (modify-syntax-entry ?/ ". 124b" st)
-    (modify-syntax-entry ?* ". 23" st)
-    (modify-syntax-entry ?\n "> b" st)
-    ;; Fix various operators and punctionation.
-    (modify-syntax-entry ?<  "." table)
-    (modify-syntax-entry ?>  "." table)
-    (modify-syntax-entry ?&  "." table)
-    (modify-syntax-entry ?|  "." table)
-    (modify-syntax-entry ?%  "." table)
-    (modify-syntax-entry ?=  "." table)
-    (modify-syntax-entry ?+  "." table)
-    (modify-syntax-entry ?-  "." table)
-    (modify-syntax-entry ?\; "." table)
-    ;; Our parenthesis, braces and brackets
-    (modify-syntax-entry ?\( "()" table)
-    (modify-syntax-entry ?\) ")(" table)
-    (modify-syntax-entry ?\{ "(}" table)
-    (modify-syntax-entry ?\} "){" table)
-    (modify-syntax-entry ?\[ "(]" table)
-    (modify-syntax-entry ?\] ")[" table)
-    table)
-  "Syntax table in use in `sme-mode' buffers.")
+;; (defvar sme-mode-syntax-table
+;;   (let ((table (make-syntax-table)))
+;;     ;; Strings
+;;     (modify-syntax-entry ?' "\"" table)
+;;     (modify-syntax-entry ?\" "\"" table)
+;;     (modify-syntax-entry ?\' "\"'"  table)
+;;     (modify-syntax-entry ?\" "\"\"" table)
+;;     ;; C-style comments
+;;     (modify-syntax-entry ?/ ". 124b" st)
+;;     (modify-syntax-entry ?* ". 23" st)
+;;     (modify-syntax-entry ?\n "> b" st)
+;;     ;; Fix various operators and punctionation.
+;;     (modify-syntax-entry ?<  "." table)
+;;     (modify-syntax-entry ?>  "." table)
+;;     (modify-syntax-entry ?&  "." table)
+;;     (modify-syntax-entry ?|  "." table)
+;;     (modify-syntax-entry ?%  "." table)
+;;     (modify-syntax-entry ?=  "." table)
+;;     (modify-syntax-entry ?+  "." table)
+;;     (modify-syntax-entry ?-  "." table)
+;;     (modify-syntax-entry ?\; "." table)
+;;     ;; Our parenthesis, braces and brackets
+;;     (modify-syntax-entry ?\( "()" table)
+;;     (modify-syntax-entry ?\) ")(" table)
+;;     (modify-syntax-entry ?\{ "(}" table)
+;;     (modify-syntax-entry ?\} "){" table)
+;;     (modify-syntax-entry ?\[ "(]" table)
+;;     (modify-syntax-entry ?\] ")[" table)
+;;     table)
+;;   "Syntax table in use in `sme-mode' buffers.")
 
 (defvar sme-mode-font-lock-keywords
   `(,(rx symbol-start
