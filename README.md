@@ -5,7 +5,7 @@ SME Mode
 
 SME Mode is a major mode for [GNU Emacs][]  which adds support for the
 SAP [CPQ][] solution modeling language.  The SME is a solution modeling
-environment provided by [SAP SE]. This mode supports Puppet 2 and later.
+environment provided by [SAP SE]. This mode supports SSC 2 and later.
 
 This mode needs GNU Emacs 24.  It will **not** work with GNU Emacs 23 and below.
 It has not been tested with other flavors of Emacs (e.g. Prelude).
@@ -26,7 +26,7 @@ The major mode is enabled automatically for SME files with the extension '.ssc'.
 
 Support
 -------
-Feel free
+Feel free to ask question or make suggestions in our [issue tracker][].
 
 Contribute
 -----------
@@ -36,12 +36,12 @@ Contribute
 License
 --------
 
-Puppet Mode is free software: you can redistribute it and/or modify it under the
+SME Mode is free software: you can redistribute it and/or modify it under the
 terms of the GNU General Public License as published by the Free Software
 Foundation, either version 3 of the License, or (at your option) any later
 version.
 
-Puppet Mode is distributed in the hope that it will be useful, but WITHOUT ANY
+SME Mode is distributed in the hope that it will be useful, but WITHOUT ANY
 WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
 PARTICULAR PURPOSE.  See the GNU General Public License for more details.
 
