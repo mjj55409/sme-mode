@@ -22,7 +22,9 @@ Installation
 Clone from Github:
 ```git clone https://github.com/mjj55409/sme-mode.git```
 
-Add your your .emacs.d/init.el file:
+Or download the zip archive and unzip it locally.
+
+Add to your .emacs.d/init.el file:
 
 ```
 (add-to-list 'load-path (<your-path-to-sme-mode>))
