@@ -55,7 +55,7 @@
   :group 'sme
   :safe 'integerp)
 
-(defcustom SME-indent-tabs-mode nil
+(defcustom sme-indent-tabs-mode nil
   "Indentation can insert tabs in SME mode if this is non-nil."
   :type 'boolean
   :group 'sme
@@ -101,67 +101,73 @@ Return nil, if there is no special context at POS, or one of
 
 
 ;;; Font locking
-;; (defvar sme-mode-syntax-table
-;;   (let ((table (make-syntax-table)))
-;;     ;; Strings
-;;     (modify-syntax-entry ?' "\"" table)
-;;     (modify-syntax-entry ?\" "\"" table)
-;;     (modify-syntax-entry ?\' "\"'"  table)
-;;     (modify-syntax-entry ?\" "\"\"" table)
-;;     ;; C-style comments
-;;     (modify-syntax-entry ?/ ". 124b" st)
-;;     (modify-syntax-entry ?* ". 23" st)
-;;     (modify-syntax-entry ?\n "> b" st)
-;;     ;; Fix various operators and punctionation.
-;;     (modify-syntax-entry ?<  "." table)
-;;     (modify-syntax-entry ?>  "." table)
-;;     (modify-syntax-entry ?&  "." table)
-;;     (modify-syntax-entry ?|  "." table)
-;;     (modify-syntax-entry ?%  "." table)
-;;     (modify-syntax-entry ?=  "." table)
-;;     (modify-syntax-entry ?+  "." table)
-;;     (modify-syntax-entry ?-  "." table)
-;;     (modify-syntax-entry ?\; "." table)
-;;     ;; Our parenthesis, braces and brackets
-;;     (modify-syntax-entry ?\( "()" table)
-;;     (modify-syntax-entry ?\) ")(" table)
-;;     (modify-syntax-entry ?\{ "(}" table)
-;;     (modify-syntax-entry ?\} "){" table)
-;;     (modify-syntax-entry ?\[ "(]" table)
-;;     (modify-syntax-entry ?\] ")[" table)
-;;     table)
-;;   "Syntax table in use in `sme-mode' buffers.")
+(defvar sme-mode-syntax-table
+  (let ((table (make-syntax-table)))
+    ;; Strings
+    (modify-syntax-entry ?' "\"" table)
+    (modify-syntax-entry ?\" "\"" table)
+    (modify-syntax-entry ?\' "\"'"  table)
+    (modify-syntax-entry ?\" "\"\"" table)
+    ;; C-style comments
+    (modify-syntax-entry ?/ ". 124b" table)
+    (modify-syntax-entry ?* ". 23" table)
+    (modify-syntax-entry ?\n "> b" table)
+    ;; Fix various operators and punctionation.
+    (modify-syntax-entry ?<  "." table)
+    (modify-syntax-entry ?>  "." table)
+    (modify-syntax-entry ?&  "." table)
+    (modify-syntax-entry ?|  "." table)
+    (modify-syntax-entry ?%  "." table)
+    (modify-syntax-entry ?=  "." table)
+    (modify-syntax-entry ?+  "." table)
+    (modify-syntax-entry ?-  "." table)
+    (modify-syntax-entry ?\; "." table)
+    ;; Our parenthesis, braces and brackets
+    (modify-syntax-entry ?\( "()" table)
+    (modify-syntax-entry ?\) ")(" table)
+    (modify-syntax-entry ?\{ "(}" table)
+    (modify-syntax-entry ?\} "){" table)
+    (modify-syntax-entry ?\[ "(]" table)
+    (modify-syntax-entry ?\] ")[" table)
+    table)
+  "Syntax table in use in `sme-mode' buffers.")
+
 
 (defvar sme-mode-font-lock-keywords
-  `(,(rx symbol-start
-         (or "additionalvlaues" "and" "body" "bom" "boms" "characteristic"
-             "characteristics" "class" "classes" "classtype" "condition"
-             "constraint" "constraintnet" "constraintnets" "constraints"
-             "decimalplaces" "defaultvalues" "do" "domain" "explainations"
-             "extends" "externaltable" "field" "file" "find_or_create"
-             "function" "has_part" "in" "increment" "inferences"
-             "invisible" "is" "is_a" "is_object" "lang" "material" "max"
-             "min" "multivalue" "name" "noinput" "not" "nr" "numericlength"
-             "objects" "or" "part_of" "pfunction" "pos_no" "pos_type"
-             "primary" "producttype" "profiles" "reference" "required"
-             "restrictable" "restrictions" "rows" "rule" "rulenet" "rulenets"
-             "rules" "salesrelevant" "specified" "subpart_of" "table" "task"
-             "tasks" "textlength" "then" "type_of" "undo" "validfrom" "values"
-             "version" "visible" "where" "with"
-             "abs" "arcos" "arcsin" "arctan" "ceil" "cos" "exp" "floor" "frac"
-             "lc" "ln" "log10" "sign" "sin" "sqrt" "tan" "trunc" "uc" "||")
-         symbol-end)
-    (0 font-lock-preprocessor-face)))
+  `(
+    ;; Keywords
+    (,(rx (or "additionalValues" "and" "body" "bom" "boms" "characteristic"
+              "characteristics" "class" "classes" "classType" "condition"
+              "constraint" "constraintNet" "constraintNets" "constraints"
+              "decimalPlaces" "defaultValues" "do" "domain" "explainations"
+              "extends" "externalTable" "field" "file" "find_or_create"
+              "function" "has_part" "in" "increment" "inferences"
+              "invisible" "is" "is_a" "is_object" "lang" "material" "max"
+              "min" "multiValue" "name" "noinput" "not" "nr" "numericLength"
+              "objects" "or" "part_of" "pfunction" "pos_no" "pos_type"
+              "primary" "productType" "profiles" "reference" "required"
+              "restrictable" "restrictions" "rows" "rule" "ruleNet" "ruleNets"
+              "rules" "salesRelevant" "specified" "subpart_of" "table" "task"
+              "tasks" "textLength" "then" "type_of" "undo" "validFrom" "values"
+              "version" "visible" "where" "with" "caseSensitive" "knowledgeBase"
+              "abs" "arcos" "arcsin" "arctan" "ceil" "cos" "exp" "floor" "frac"
+              "lc" "ln" "log10" "sign" "sin" "sqrt" "tan" "trunc" "uc" "||"))
+     (0 font-lock-keyword-face))
+    ;; Objects (anything in all upper case)
+    (,(rx upper-case (group (+ word)))
+     (0 font-lock-function-name-face))
+    ))
 
 ;;; Major mode definition
 
-;;;###autoload
-(add-to-list 'auto-mode-alist '("\\.ssc\\'" . sme-mode))
-
 (define-derived-mode sme-mode prog-mode "SME Mode"
   :syntax-table sme-mode-syntax-table
-  :font-lock_keywords sme-mode-font-lock-keywords
-  (font-lock-fontify-buffer))
+  (setq indent-tabs-mode sme-indent-tabs-mode)
+  (setq indent-level sme-indent-level)
+  (setq font-lock-defaults '((sme-mode-font-lock-keywords) nil nil)))
+
+;;;###autoload
+(add-to-list 'auto-mode-alist '("\\.ssc\\'" . sme-mode))
 
 (provide 'sme-mode)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
