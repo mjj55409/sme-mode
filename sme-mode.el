@@ -156,6 +156,12 @@ Return nil, if there is no special context at POS, or one of
     ;; Objects (anything in all upper case)
     (,(rx upper-case (group (+ word)))
      (0 font-lock-function-name-face))
+    ;; Variables
+    (,(rx (or bol space)(group "?" (+ word)) eow)
+     (0 font-lock-variable-name-face))
+    ;; Constants
+    (,(rx (or "(300)"))
+     (0 font-lock-constant-face))
     ))
 
 ;;; Major mode definition
